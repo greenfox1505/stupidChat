@@ -11,7 +11,7 @@ var messages = [];
 
 app.use('/', express.static(path.join(__dirname, 'static')))
 
-app.get('/msg/:name/:msg', function (req, res) {
+app.get('/msg/:name/:msg', function (req, res) { //using get instead of put because wget scripting
 	console.log(req.params);
 	req.params.date = Date.now();
 	messages.push(req.params);
