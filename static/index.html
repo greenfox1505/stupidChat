@@ -1,1 +1,31 @@
-HELLO WORLD
+<head>
+	<script src="angular.min.js"></script>
+</head>
+<body>
+<div ng-app="StupidChatApp" ng-controller="StupidChatCont">
+	<div ng-repeat="msg in messages">
+		<p>{{msg.msg}}</p>
+		<h6>{{msg.name}}</h6>
+	</div>
+	<form ng-submit="sendMessage()">
+		<input ng-model="newMessage">
+	</form>
+</div>	
+<script>
+angular.module('StupidChatApp', [])
+.controller('StupidChatCont', ['$scope', '$http',function($scope,$http) {
+	$scope.messages = [];
+	$scope.newMessage = "";
+	$scope.thisUser = "defult";
+	$http.get("/history").then(function(res){console.log($scope.messages = res.data)});
+	$scope.sendMessage = function(e){
+		$http.get("/msg/" + $scope.thisUser + "/" + $scope.newMessage)
+		.then(function(res){
+			console.log("gotMessageBack")
+			$scope.newMessage = "";
+		})
+		//http://monitor.zombiejerky.net:9500/msg/qwer/fuckingNope
+	}
+}]);
+</script>
+</body>
